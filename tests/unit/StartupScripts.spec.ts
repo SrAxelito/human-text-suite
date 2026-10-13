@@ -33,6 +33,42 @@ describe('Scripts de Arranque y DevOps - Windows (iniciar.bat)', () => {
     expect(contenido).toContain('http://localhost:5173');
     expect(contenido).toContain('npm run dev');
   });
+
+  it('no debe utilizar @cls para preservar el historial de errores en terminal', () => {
+    const contenido = fs.readFileSync(batPath, 'utf-8');
+    expect(contenido).not.toMatch(/@cls\b/i);
+    expect(contenido).not.toMatch(/^cls$/im);
+  });
+
+  it('debe arrancar el servidor en ventana persistente cmd /k y esperar 3 segundos antes del navegador', () => {
+    const contenido = fs.readFileSync(batPath, 'utf-8');
+    expect(contenido).toContain('start "HumanTextSuite - Servidor" cmd /k "npm run dev"');
+    expect(contenido).toContain('timeout /t 3');
+  });
+
+  it('debe verificar tanto node como npm y disponer de rutas estandar de Windows', () => {
+    const contenido = fs.readFileSync(batPath, 'utf-8');
+    expect(contenido).toContain('where node');
+    expect(contenido).toContain('where npm');
+    expect(contenido).toContain('%ProgramFiles%\\nodejs');
+    expect(contenido).toContain('%LOCALAPPDATA%\\Programs\\node');
+  });
+});
+
+describe('Manejo de Puertos Dinámicos y Servidor Fijo (5173)', () => {
+  it('package.json debe configurar el script dev con --port 5173 y --strictPort', () => {
+    const pkgPath = path.resolve(__dirname, '../../package.json');
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+    expect(pkg.scripts.dev).toContain('--port 5173');
+    expect(pkg.scripts.dev).toContain('--strictPort');
+  });
+
+  it('vite.config.ts debe forzar puerto 5173 y strictPort true', () => {
+    const viteConfigPath = path.resolve(__dirname, '../../vite.config.ts');
+    const contenido = fs.readFileSync(viteConfigPath, 'utf-8');
+    expect(contenido).toContain('port: 5173');
+    expect(contenido).toContain('strictPort: true');
+  });
 });
 
 describe('Scripts de Arranque y DevOps - macOS y Linux (iniciar.sh)', () => {
