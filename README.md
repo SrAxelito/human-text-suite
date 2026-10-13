@@ -1,8 +1,8 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)
-![Coverage](https://img.shields.io/badge/coverage->91%25-brightgreen.svg)
+![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+![Coverage](https://img.shields.io/badge/coverage->92%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
 
@@ -10,7 +10,12 @@
 
 ## 📋 1. Visión General del Proyecto
 
-**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con segmentación inteligente para documentos extensos, procesamiento por lotes asíncrono, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación optimizada por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.3.0:
+- **Navegación Exclusiva por Clic en el Visor:** Eliminación del auto-scroll y saltos de pantalla al pasar el cursor sobre oraciones o indicadores; navegación fluida (*smooth scroll*) y actualización de la tarjeta de inspección activadas únicamente mediante clic explícito.
+- **Barra de Desplazamiento Personalizada (*Custom Scrollbar*):** Riel (*track*) y tirador (*thumb*) discretos de 7px con bordes redondeados y transiciones dinámicas al interactuar, compatibles con todos los paneles y contenedores con scroll.
+- **Selector de Modo Claro / Oscuro con Botón de Engranaje:** Menú de configuración en la esquina superior derecha con interruptor animado (sol/luna), paletas completas adaptadas para óptimo contraste en ambos modos y persistencia automática en `localStorage` mediante `TemaService`.
 
 ### Novedades en v1.2.0:
 - **Segmentación Semántica Inteligente (`ChunkingService`):** Algoritmo de fragmentación en bloques seguros (10.000 a 15.000 caracteres o ~2.500 palabras) respetando límites de párrafos (`\n\n`), encabezados y oraciones sin cortar palabras a la mitad, preservando el 100% de los offsets de caracteres del documento original.
