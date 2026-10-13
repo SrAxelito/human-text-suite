@@ -7,6 +7,7 @@ import { MetricsDashboard } from './components/MetricsDashboard';
 import { DiffViewer } from './components/DiffViewer';
 import { ActionsToolbar } from './components/ActionsToolbar';
 import { ExportModal } from './components/ExportModal';
+import { ProgressBar } from './components/ProgressBar';
 import { ReportExporter } from '../core/infrastructure/export/ReportExporter';
 
 export class App {
@@ -58,6 +59,7 @@ export class App {
           </div>
 
           <div id="workspace-view-container">
+            ${ProgressBar.render(estado.progresoLote)}
             ${this.renderVistaContenido(estado)}
           </div>
 
@@ -129,6 +131,7 @@ export class App {
   private bindEvents(estado: EstadoApp): void {
     SampleSelector.bindEvents(this.rootElement, this.store);
     DropzoneWord.bindEvents(this.rootElement, this.store);
+    ProgressBar.bindEvents(this.rootElement, this.store);
 
     if (estado.vistaActiva === 'resaltado') {
       VisorTexto.bindEvents(this.rootElement, estado.analisis, (oracion) => {

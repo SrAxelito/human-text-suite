@@ -3,11 +3,14 @@ import {
   ResultadoAnalisis,
   ResultadoHumanizacion,
   OracionAnalizada,
-  MetadatosDocumento
+  MetadatosDocumento,
+  EventoProgresoLote,
+  ErrorProcesoCancelado
 } from '../../core/domain';
 import { DetectorService } from '../../core/services/DetectorService';
 import { HumanizadorService } from '../../core/services/HumanizadorService';
 import { DocumentReaderService } from '../../core/services/DocumentReaderService';
+import { BatchProcessingService } from '../../core/services/BatchProcessingService';
 
 export interface EstadoApp {
   texto: string;
@@ -17,6 +20,7 @@ export interface EstadoApp {
   modo: ModoHumanizacion;
   estaCargando: boolean;
   cargandoMensaje: string;
+  progresoLote: EventoProgresoLote | null;
   vistaActiva: 'editor' | 'resaltado' | 'diff';
   oracionSeleccionada: OracionAnalizada | null;
   notificacion: { mensaje: string; tipo: 'info' | 'exito' | 'error' } | null;
@@ -29,6 +33,8 @@ export class AppStore {
   private detectorService: DetectorService;
   private humanizadorService: HumanizadorService;
   private documentReaderService: DocumentReaderService;
+  private batchProcessingService: BatchProcessingService;
+  private abortControllerAnalisis: AbortController | null = null;
   private listeners: Set<ListenerEstado> = new Set();
 
   private estado: EstadoApp = {
@@ -39,6 +45,7 @@ export class AppStore {
     modo: ModoHumanizacion.EQUILIBRADO,
     estaCargando: false,
     cargandoMensaje: '',
+    progresoLote: null,
     vistaActiva: 'editor',
     oracionSeleccionada: null,
     notificacion: null
@@ -48,6 +55,7 @@ export class AppStore {
     this.detectorService = new DetectorService();
     this.humanizadorService = new HumanizadorService(this.detectorService);
     this.documentReaderService = new DocumentReaderService();
+    this.batchProcessingService = new BatchProcessingService(this.detectorService);
   }
 
   public static obtenerInstancia(): AppStore {
@@ -105,10 +113,25 @@ export class AppStore {
     }, 3200);
   }
 
+  public cancelarAnalisis(): void {
+    if (this.abortControllerAnalisis) {
+      this.abortControllerAnalisis.abort();
+      this.abortControllerAnalisis = null;
+    }
+    this.batchProcessingService.cancelar();
+    this.estado.estaCargando = false;
+    this.estado.progresoLote = null;
+    this.estado.cargandoMensaje = '';
+    this.mostrarToast('Análisis cancelado por el usuario.', 'info');
+    this.notificar();
+  }
+
   public async cargarDocumentoWord(archivo: File): Promise<void> {
     this.estado.estaCargando = true;
     this.estado.cargandoMensaje = `Extrayendo texto de "${archivo.name}"...`;
     this.notificar();
+
+    this.abortControllerAnalisis = new AbortController();
 
     try {
       const resultadoLectura = await this.documentReaderService.leerDocumento(archivo);
@@ -122,27 +145,46 @@ export class AppStore {
         'info'
       );
 
-      // Disparar automáticamente el análisis en segundo plano
-      this.estado.cargandoMensaje = 'Ejecutando análisis de detección IA en segundo plano...';
-      this.notificar();
+      const resultadoAnalisis = await this.batchProcessingService.procesarDocumento(
+        resultadoLectura.texto,
+        {
+          signal: this.abortControllerAnalisis.signal,
+          onProgreso: (evento) => {
+            this.estado.progresoLote = evento;
+            this.estado.cargandoMensaje = evento.mensaje || '';
+            if (evento.resultadoAcumulado) {
+              this.estado.analisis = evento.resultadoAcumulado;
+            }
+            this.notificar();
+          }
+        }
+      );
 
-      const resultadoAnalisis = await this.detectorService.analizar(resultadoLectura.texto);
       this.estado.analisis = resultadoAnalisis;
       this.mostrarToast(
         `Análisis completado: ${resultadoAnalisis.etiquetaClasificacion} (${resultadoAnalisis.probabilidadGlobalIA}%)`,
         'exito'
       );
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al procesar el archivo Word';
-      this.mostrarToast(msg, 'error');
+      if (err instanceof ErrorProcesoCancelado) {
+        this.mostrarToast('Análisis cancelado por el usuario.', 'info');
+      } else {
+        const msg = err instanceof Error ? err.message : 'Error al procesar el archivo Word';
+        this.mostrarToast(msg, 'error');
+      }
     } finally {
+      this.abortControllerAnalisis = null;
       this.estado.estaCargando = false;
+      this.estado.progresoLote = null;
       this.estado.cargandoMensaje = '';
       this.notificar();
     }
   }
 
   public descartarDocumento(): void {
+    if (this.estado.estaCargando) {
+      this.cancelarAnalisis();
+    }
     this.estado.documentoWord = null;
     this.estado.texto = '';
     this.estado.analisis = null;
@@ -158,20 +200,41 @@ export class AppStore {
       return;
     }
 
+    this.abortControllerAnalisis = new AbortController();
     this.estado.estaCargando = true;
-    this.estado.cargandoMensaje = 'Analizando perplejidad y variabilidad sintáctica...';
+    this.estado.cargandoMensaje = 'Iniciando análisis...';
     this.notificar();
 
     try {
-      const res = await this.detectorService.analizar(this.estado.texto);
+      const res = await this.batchProcessingService.procesarDocumento(this.estado.texto, {
+        signal: this.abortControllerAnalisis.signal,
+        onProgreso: (evento) => {
+          this.estado.progresoLote = evento;
+          this.estado.cargandoMensaje = evento.mensaje || '';
+          if (evento.resultadoAcumulado) {
+            this.estado.analisis = evento.resultadoAcumulado;
+            if (this.estado.vistaActiva === 'editor') {
+              this.estado.vistaActiva = 'resaltado';
+            }
+          }
+          this.notificar();
+        }
+      });
+
       this.estado.analisis = res;
       this.estado.vistaActiva = 'resaltado';
       this.mostrarToast(`Análisis completado: ${res.etiquetaClasificacion}`, 'exito');
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al analizar texto';
-      this.mostrarToast(msg, 'error');
+      if (err instanceof ErrorProcesoCancelado) {
+        this.mostrarToast('Análisis cancelado por el usuario.', 'info');
+      } else {
+        const msg = err instanceof Error ? err.message : 'Error al analizar texto';
+        this.mostrarToast(msg, 'error');
+      }
     } finally {
+      this.abortControllerAnalisis = null;
       this.estado.estaCargando = false;
+      this.estado.progresoLote = null;
       this.estado.cargandoMensaje = '';
       this.notificar();
     }
