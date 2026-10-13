@@ -1,7 +1,7 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.5.1-blue.svg)
 ![Coverage](https://img.shields.io/badge/coverage->92%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
@@ -11,6 +11,12 @@
 ## 📋 1. Visión General del Proyecto
 
 **HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación optimizada por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.5.1:
+- **Corrección de Arranque Persistente en Windows (`iniciar.bat`):** Diagnóstico y solución definitiva para el falso positivo en la detección de dependencias y cierre del script.
+- **Detección Resiliente de Entorno Node.js y npm:** Inclusión automática en PATH de directorios estándar de Windows (`Program Files`, `AppData\Local\Programs`) y eliminación de fallos de parsing por paréntesis en scripts Batch.
+- **Arranque en Ventana Dedicada con Logs Activos:** Lanzamiento del servidor Vite mediante `start "HumanTextSuite - Servidor" cmd /k "npm run dev"` para mantener la consola abierta con los logs en tiempo real.
+- **Temporizador de Enlace y Puerto Estricto:** Pausa controlada de 3 segundos antes de abrir el navegador y configuración de `--port 5173 --strictPort` para garantizar que la conexión nunca sea rechazada (`ERR_CONNECTION_REFUSED`).
 
 ### Novedades en v1.5.0:
 - **Arranque e Instalación Automática en Un Solo Clic (`iniciar.bat` / `iniciar.sh`):** Scripts multiplataforma que verifican la presencia de Node.js, generan el archivo de configuración `.env` a partir de `.env.example`, instalan dependencias silenciosamente en la primera ejecución, arrancan el servidor Vite y abren automáticamente la aplicación en el navegador predeterminado.
