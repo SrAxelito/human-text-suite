@@ -1,7 +1,7 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.6.1-blue.svg)
 ![Live Demo](https://img.shields.io/badge/demo-online-brightgreen.svg)
 ![Windows Release](https://img.shields.io/badge/windows-portable%20%7C%20setup-blueviolet.svg)
 ![Coverage](https://img.shields.io/badge/coverage->92%25-brightgreen.svg)
@@ -40,7 +40,13 @@ graph LR
 
 ## 📋 1. Visión General del Proyecto
 
-**HumanTextSuite** es una solución modular de ingeniería de software diseñada para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación exclusiva por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+**HumanTextSuite** es una solución modular de ingeniería de software diseñada para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro inspirados en el diseño Primer de GitHub, scrollbar estilizado, navegación exclusiva por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.6.1:
+- **Rediseño Completo al Estilo GitHub (Modo Claro y Oscuro):** Adopción estricta de la identidad visual de GitHub (Primer) con bordes finos de 1px (`#d0d7de` en claro, `#30363d` en oscuro) y radio uniforme de 6px (`border-radius: 6px`).
+- **Eliminación de Grises Incoherentes y Franjas Oscuras en Modo Claro:** Corrección del fondo del editor de texto y barra de conteo de palabras, unificándolos de manera limpia en `#ffffff` y `#f6f8fa` con texto `#57606a`.
+- **Panel de Métricas & Diagnóstico Estilizado:** Eliminación del bloque gris oscuro del héroe del gauge, incorporando un anillo sutil de progreso y tarjeta de instrucciones como alerta nativa de GitHub (`#ddf4ff` / `#54aeff`).
+- **Segmented Controls Nativos de GitHub:** Pestañas superiores (`Editor`, `Visor con Margen`, `Visor Diff`) adaptadas fielmente al patrón de controles segmentados interactivos de GitHub.
 
 ### Novedades en v1.6.0:
 - **Ejecutables de Escritorio Nativos para Windows:** Distribución standalone y portable autosuficiente (`.exe` y `.zip`) sin ventanas de terminal ni necesidad de instalar Node.js o Git.
