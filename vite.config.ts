@@ -11,6 +11,10 @@ export default defineConfig({
       '@presentation': path.resolve(__dirname, './src/presentation')
     }
   },
+  server: {
+    port: 5173,
+    strictPort: true
+  },
   test: {
     globals: true,
     environment: 'node',

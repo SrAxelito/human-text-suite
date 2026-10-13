@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Detector de texto generado por IA, corrección de estilo y humanización de contenido.",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5173 --strictPort",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",

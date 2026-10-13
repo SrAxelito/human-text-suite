@@ -1,5 +1,6 @@
 @echo off
 title HumanTextSuite - Limpieza y Reseteo
+cd /d "%~dp0"
 echo.
 echo ==============================================================
 echo    HumanTextSuite - Limpieza de Cache y Dependencias
