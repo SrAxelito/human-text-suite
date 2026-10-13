@@ -174,24 +174,39 @@ export class VisorTexto {
       const oracion = analisis.oraciones[idx];
       if (!oracion) return;
 
-      span.addEventListener('click', () => {
+      // Navegación y selección exclusiva por clic (sin auto-scroll en hover)
+      span.addEventListener('click', (event) => {
+        event.stopPropagation();
         sentenceSpans.forEach((s) => s.classList.remove('sentence-activa'));
         span.classList.add('sentence-activa');
         onSelectOracion(oracion);
-      });
 
-      span.addEventListener('mouseenter', () => {
-        onSelectOracion(oracion);
+        if (typeof span.scrollIntoView === 'function') {
+          span.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       });
     });
 
     const gutterMarkers = container.querySelectorAll<HTMLElement>('.gutter-marker');
     gutterMarkers.forEach((marker) => {
-      marker.addEventListener('click', () => {
+      marker.addEventListener('click', (event) => {
+        event.stopPropagation();
         const bloque = marker.closest('.parrafo-bloque');
         const firstSentence = bloque?.querySelector<HTMLElement>('.sentence-clean');
         if (firstSentence) {
-          firstSentence.click();
+          const idx = Number(firstSentence.getAttribute('data-sentence-id'));
+          const oracion = analisis.oraciones[idx];
+          sentenceSpans.forEach((s) => s.classList.remove('sentence-activa'));
+          firstSentence.classList.add('sentence-activa');
+
+          if (oracion) {
+            onSelectOracion(oracion);
+          }
+
+          // Desplazamiento suave hacia la primera oración del párrafo correspondiente
+          if (typeof firstSentence.scrollIntoView === 'function') {
+            firstSentence.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         }
       });
     });

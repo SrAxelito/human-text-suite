@@ -105,4 +105,97 @@ describe('VisorTexto - Renderizado y Mapeo de Marcadores Laterales y Subrayado S
     expect(htmlVacio).toContain('visor-vacio');
     expect(htmlVacio).toContain('No hay oraciones analizadas aún');
   });
+
+  it('debe registrar navegación exclusivamente por clic y no por eventos de hover', () => {
+    let selectCount = 0;
+    let oracionSeleccionada: any = null;
+    let scrollIntoViewCount = 0;
+
+    const clickListeners: Record<string, Function> = {};
+    const mouseenterListeners: Record<string, Function> = {};
+
+    const fakeSpan = {
+      getAttribute: (attr: string) => (attr === 'data-sentence-id' ? '0' : null),
+      classList: {
+        add: () => {},
+        remove: () => {}
+      },
+      addEventListener: (evt: string, cb: Function) => {
+        if (evt === 'click') clickListeners['span'] = cb;
+        if (evt === 'mouseenter') mouseenterListeners['span'] = cb;
+      },
+      scrollIntoView: () => {
+        scrollIntoViewCount++;
+      }
+    };
+
+    const fakeContainer = {
+      querySelectorAll: (sel: string) => {
+        if (sel === '.sentence-clean') return [fakeSpan];
+        if (sel === '.gutter-marker') return [];
+        return [];
+      }
+    } as unknown as HTMLElement;
+
+    VisorTexto.bindEvents(fakeContainer, analisisMock, (o) => {
+      selectCount++;
+      oracionSeleccionada = o;
+    });
+
+    // Validar que NO se añadió listener para 'mouseenter'
+    expect(mouseenterListeners['span']).toBeUndefined();
+
+    // Simular clic
+    clickListeners['span']({ stopPropagation: () => {} });
+    expect(selectCount).toBe(1);
+    expect(oracionSeleccionada).toBe(oracionesMock[0]);
+    expect(scrollIntoViewCount).toBe(1);
+  });
+
+  it('debe permitir que el clic en el marcador lateral desplace con precisión a la primera oración del párrafo', () => {
+    let oracionSeleccionada: any = null;
+    let scrollCount = 0;
+    const clickListeners: Record<string, Function> = {};
+
+    const fakeFirstSentence = {
+      getAttribute: (attr: string) => (attr === 'data-sentence-id' ? '0' : null),
+      classList: {
+        add: () => {},
+        remove: () => {}
+      },
+      addEventListener: () => {},
+      scrollIntoView: () => {
+        scrollCount++;
+      }
+    };
+
+    const fakeBloque = {
+      querySelector: (sel: string) => (sel === '.sentence-clean' ? fakeFirstSentence : null)
+    };
+
+    const fakeMarker = {
+      closest: (sel: string) => (sel === '.parrafo-bloque' ? fakeBloque : null),
+      addEventListener: (evt: string, cb: Function) => {
+        if (evt === 'click') clickListeners['marker'] = cb;
+      }
+    };
+
+    const fakeContainer = {
+      querySelectorAll: (sel: string) => {
+        if (sel === '.sentence-clean') return [fakeFirstSentence];
+        if (sel === '.gutter-marker') return [fakeMarker];
+        return [];
+      }
+    } as unknown as HTMLElement;
+
+    VisorTexto.bindEvents(fakeContainer, analisisMock, (o) => {
+      oracionSeleccionada = o;
+    });
+
+    expect(clickListeners['marker']).toBeDefined();
+    clickListeners['marker']({ stopPropagation: () => {} });
+
+    expect(oracionSeleccionada).toBe(oracionesMock[0]);
+    expect(scrollCount).toBe(1);
+  });
 });
