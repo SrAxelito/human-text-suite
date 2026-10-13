@@ -1,7 +1,7 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)
+![Version](https://img.shields.io/badge/version-1.5.0-blue.svg)
 ![Coverage](https://img.shields.io/badge/coverage->92%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
@@ -11,6 +11,11 @@
 ## 📋 1. Visión General del Proyecto
 
 **HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación optimizada por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.5.0:
+- **Arranque e Instalación Automática en Un Solo Clic (`iniciar.bat` / `iniciar.sh`):** Scripts multiplataforma que verifican la presencia de Node.js, generan el archivo de configuración `.env` a partir de `.env.example`, instalan dependencias silenciosamente en la primera ejecución, arrancan el servidor Vite y abren automáticamente la aplicación en el navegador predeterminado.
+- **Herramientas de Reseteo y Mantenimiento (`limpiar.bat` / `limpiar.sh`):** Scripts de limpieza profunda para purgar `node_modules`, dist, caché de Vite/Vitest y reinstalar paquetes limpios con un solo clic.
+- **Documentación de Inicio Rápido Simplificada:** Reestructuración completa de la guía de instalación local priorizando el flujo sin terminal ni fricción para usuarios finales, manteniendo la configuración manual para desarrolladores en desplegables `<details>`.
 
 ### Novedades en v1.3.0:
 - **Navegación Exclusiva por Clic en el Visor:** Eliminación del auto-scroll y saltos de pantalla al pasar el cursor sobre oraciones o indicadores; navegación fluida (*smooth scroll*) y actualización de la tarjeta de inspección activadas únicamente mediante clic explícito.
