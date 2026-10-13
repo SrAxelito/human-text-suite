@@ -51,7 +51,7 @@ export class SentenceRestructurer {
 
     // 2. Ruptura de oraciones monotonamente largas en oraciones asimétricas
     const oraciones = SentenceRestructurer.splitter.segmentarOraciones(resultado);
-    if (oraciones.length >= 2) {
+    if (oraciones.length >= 1) {
       const oracionesNuevas: string[] = [];
 
       for (let i = 0; i < oraciones.length; i++) {
