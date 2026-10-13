@@ -125,36 +125,80 @@ El motor de reescritura (`HumanizadorService`) ejecuta un flujo de tres fases:
 
 ## 🚀 5. Instalación y Ejecución Local
 
-### Prerrequisitos
+### ⚡ 5.1. Inicio Rápido (Recomendado para todos - 1 Solo Clic)
+No necesitas escribir comandos manuales en la terminal ni configurar variables de entorno para utilizar la aplicación:
+
+1. **Descarga o clona el repositorio:**
+   ```bash
+   git clone https://github.com/SrAxelito/human-text-suite.git
+   cd human-text-suite
+   ```
+2. **Ejecuta el script automático correspondiente a tu sistema operativo:**
+   - **En Windows:** Haz doble clic sobre el archivo **`iniciar.bat`**.
+   - **En macOS / Linux:** Abre una terminal en la carpeta del proyecto y ejecuta:
+     ```bash
+     chmod +x iniciar.sh
+     ./iniciar.sh
+     ```
+3. **¡Listo!** El script se encargará automáticamente de:
+   - Comprobar que tengas Node.js instalado (si no está, te ofrecerá el enlace oficial para descargarlo).
+   - Crear el archivo `.env` con valores por defecto a partir de `.env.example`.
+   - Instalar las dependencias (`npm install`) en la primera ejecución.
+   - Iniciar el servidor local y abrir automáticamente **HumanTextSuite** en tu navegador predeterminado (`http://localhost:5173`).
+   *(En ejecuciones posteriores, saltará la instalación para arrancar de inmediato).*
+
+> [!TIP]
+> **Script de Limpieza y Reseteo:** Si necesitas restaurar la configuración, borrar la caché de compilación o reinstalar dependencias limpias, haz doble clic en **`limpiar.bat`** (Windows) o ejecuta **`./limpiar.sh`** (Mac/Linux).
+
+---
+
+<details>
+<summary><strong>🛠️ 5.2. Instalación Manual Avanzada (Para desarrolladores)</strong> (Haz clic para desplegar)</summary>
+
+Si eres desarrollador y prefieres gestionar los procesos manualmente desde la consola:
+
+#### Prerrequisitos
 - Node.js >= 18.0.0 (probado en Node.js v20 LTS y v22)
 - npm >= 9.0.0
 
-### Instalación de dependencias
+#### 1. Configurar variables de entorno
+```bash
+cp .env.example .env
+```
+
+#### 2. Instalar dependencias
 ```bash
 npm install
 ```
 
-### Ejecutar servidor de desarrollo
+#### 3. Iniciar servidor de desarrollo
 ```bash
 npm run dev
 ```
 La aplicación estará disponible localmente en `http://localhost:5173`.
 
-### Compilar para producción
+#### 4. Validar tipos y compilar para producción
 ```bash
 npm run build
 ```
 
-### Previsualizar compilación de producción
+#### 5. Previsualizar compilación de producción
 ```bash
 npm run preview
 ```
+
+#### 6. Ejecutar suite de pruebas
+```bash
+npm test
+npm run test:coverage
+```
+</details>
 
 ---
 
 ## 🧪 6. Suite de Pruebas Automatizadas y Cobertura
 
-El proyecto cuenta con 32 pruebas automatizadas distribuidas en pruebas unitarias, de integración y de tolerancia a fallos.
+El proyecto cuenta con más de 80 pruebas automatizadas distribuidas en pruebas unitarias, de integración, DevOps y tolerancia a fallos.
 
 ### Ejecutar las pruebas
 ```bash
