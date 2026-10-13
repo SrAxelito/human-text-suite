@@ -5,3 +5,8 @@ export * from './nlp/NGramLanguageModel';
 export * from './nlp/PerplexityCalculator';
 export * from './nlp/BurstinessCalculator';
 export * from './nlp/LLMMarkersDetector';
+export * from './rewriting/Dictionaries';
+export * from './rewriting/VocabularyReplacer';
+export * from './rewriting/SentenceRestructurer';
+export * from './rewriting/CadenceVariator';
+export * from './diff/DiffEngine';
