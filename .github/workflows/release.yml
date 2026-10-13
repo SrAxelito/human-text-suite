@@ -1,0 +1,60 @@
+name: Release de Ejecutables para Windows
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Compilar y Publicar Ejecutables para Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar pruebas unitarias e integración
+        run: npm test
+
+      - name: Compilar aplicación web
+        run: npm run build
+
+      - name: Empaquetar ejecutable e instalador de escritorio con electron-builder
+        run: npx electron-builder --win nsis portable
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Empaquetar y comprimir bundle portable adicional
+        shell: pwsh
+        run: |
+          if (Test-Path "release/win-unpacked") {
+            Compress-Archive -Path "release/win-unpacked/*" -DestinationPath "release/HumanTextSuite-Portable.zip" -Force
+          }
+
+      - name: Publicar Release y adjuntar binarios
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: HumanTextSuite ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            release/*.exe
+            release/*.zip
+            release/*.blockmap
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
