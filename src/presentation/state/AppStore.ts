@@ -2,15 +2,18 @@ import {
   ModoHumanizacion,
   ResultadoAnalisis,
   ResultadoHumanizacion,
-  OracionAnalizada
+  OracionAnalizada,
+  MetadatosDocumento
 } from '../../core/domain';
 import { DetectorService } from '../../core/services/DetectorService';
 import { HumanizadorService } from '../../core/services/HumanizadorService';
+import { DocumentReaderService } from '../../core/services/DocumentReaderService';
 
 export interface EstadoApp {
   texto: string;
   analisis: ResultadoAnalisis | null;
   humanizacion: ResultadoHumanizacion | null;
+  documentoWord: MetadatosDocumento | null;
   modo: ModoHumanizacion;
   estaCargando: boolean;
   cargandoMensaje: string;
@@ -25,12 +28,14 @@ export class AppStore {
   private static instancia: AppStore;
   private detectorService: DetectorService;
   private humanizadorService: HumanizadorService;
+  private documentReaderService: DocumentReaderService;
   private listeners: Set<ListenerEstado> = new Set();
 
   private estado: EstadoApp = {
     texto: '',
     analisis: null,
     humanizacion: null,
+    documentoWord: null,
     modo: ModoHumanizacion.EQUILIBRADO,
     estaCargando: false,
     cargandoMensaje: '',
@@ -42,6 +47,7 @@ export class AppStore {
   private constructor() {
     this.detectorService = new DetectorService();
     this.humanizadorService = new HumanizadorService(this.detectorService);
+    this.documentReaderService = new DocumentReaderService();
   }
 
   public static obtenerInstancia(): AppStore {
@@ -97,6 +103,53 @@ export class AppStore {
         this.notificar();
       }
     }, 3200);
+  }
+
+  public async cargarDocumentoWord(archivo: File): Promise<void> {
+    this.estado.estaCargando = true;
+    this.estado.cargandoMensaje = `Extrayendo texto de "${archivo.name}"...`;
+    this.notificar();
+
+    try {
+      const resultadoLectura = await this.documentReaderService.leerDocumento(archivo);
+      this.estado.documentoWord = resultadoLectura.metadatos;
+      this.estado.texto = resultadoLectura.texto;
+      this.estado.humanizacion = null;
+      this.estado.vistaActiva = 'resaltado';
+
+      this.mostrarToast(
+        `Documento cargado (${resultadoLectura.metadatos.totalParrafos} párrafos, ${resultadoLectura.metadatos.totalPalabras} palabras). Analizando...`,
+        'info'
+      );
+
+      // Disparar automáticamente el análisis en segundo plano
+      this.estado.cargandoMensaje = 'Ejecutando análisis de detección IA en segundo plano...';
+      this.notificar();
+
+      const resultadoAnalisis = await this.detectorService.analizar(resultadoLectura.texto);
+      this.estado.analisis = resultadoAnalisis;
+      this.mostrarToast(
+        `Análisis completado: ${resultadoAnalisis.etiquetaClasificacion} (${resultadoAnalisis.probabilidadGlobalIA}%)`,
+        'exito'
+      );
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error al procesar el archivo Word';
+      this.mostrarToast(msg, 'error');
+    } finally {
+      this.estado.estaCargando = false;
+      this.estado.cargandoMensaje = '';
+      this.notificar();
+    }
+  }
+
+  public descartarDocumento(): void {
+    this.estado.documentoWord = null;
+    this.estado.texto = '';
+    this.estado.analisis = null;
+    this.estado.humanizacion = null;
+    this.estado.vistaActiva = 'editor';
+    this.mostrarToast('Documento descartado y editor reiniciado.', 'info');
+    this.notificar();
   }
 
   public async ejecutarAnalisis(): Promise<void> {
@@ -155,6 +208,7 @@ export class AppStore {
 
   public limpiar(): void {
     this.estado.texto = '';
+    this.estado.documentoWord = null;
     this.estado.analisis = null;
     this.estado.humanizacion = null;
     this.estado.vistaActiva = 'editor';
@@ -190,6 +244,7 @@ export class AppStore {
     }
 
     this.estado.texto = muestra;
+    this.estado.documentoWord = null;
     this.estado.analisis = null;
     this.estado.humanizacion = null;
     this.estado.vistaActiva = 'editor';
