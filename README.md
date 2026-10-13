@@ -1,8 +1,8 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![Coverage](https://img.shields.io/badge/coverage->96%25-brightgreen.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
+![Coverage](https://img.shields.io/badge/coverage->95%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
 
@@ -10,7 +10,12 @@
 
 ## 📋 1. Visión General del Proyecto
 
-**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.1.0:
+- **Importador de Documentos Word (`DocumentReaderService`):** Parsing estructural y sanitización de archivos `.docx` de hasta 15 MB con dropzone interactivo de arrastrar y soltar.
+- **Rediseño Visual Limpio con Marcadores en el Margen (*Gutter Markers*):** Eliminación de fondos saturados directamente sobre el texto; franja lateral con pines de color discretos (Verde, Ámbar, Rojo/Coral) y subrayados tenues que garantizan una lectura óptima.
+- **Tarjeta de Inspección Contextual Flotante:** Panel interactivo al pasar el cursor o hacer clic sobre cualquier oración con desglose de perplejidad, longitud y motivo diagnóstico sin tapar el texto continuo.
 
 A diferencia de detectores basados en llamadas a APIs opacas, **HumanTextSuite** implementa un motor estadístico local autónomo basado en:
 1. **Perplejidad y Entropía Cruzada:** Modelo de N-gramas y transiciones subléxicas.
