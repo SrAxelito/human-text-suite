@@ -13,3 +13,4 @@ export * from './interfaces/HumanizadorTexto';
 export * from './interfaces/SegmentadorTexto';
 export * from './interfaces/ConfiguracionSistema';
 export * from './interfaces/LectorDocumentos';
+export * from './interfaces/SegmentadorChunking';
