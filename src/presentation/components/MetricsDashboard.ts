@@ -10,10 +10,10 @@ export class MetricsDashboard {
               <circle class="gauge-bg" cx="50" cy="50" r="40" />
             </svg>
             <div class="gauge-center-text">
-              <span class="gauge-score" style="color: var(--text-muted); font-size: 2rem;">--</span>
+              <span class="gauge-score gauge-score-empty">--</span>
               <span class="gauge-label">Sin Analizar</span>
             </div>
-            <div class="category-banner" style="background: rgba(255,255,255,0.05); color: var(--text-muted);">
+            <div class="category-banner category-waiting">
               Esperando texto
             </div>
           </div>

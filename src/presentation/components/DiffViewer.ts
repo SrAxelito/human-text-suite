@@ -78,8 +78,8 @@ export class DiffViewer {
           </div>
         </div>
 
-        <div style="margin-top: 1rem; background: rgba(0,0,0,0.25); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 1rem 1.25rem;">
-          <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem; color: #a5b4fc;">
+        <div class="diff-transformations-card">
+          <div class="diff-transformations-title">
             Transformaciones Sintácticas Aplicadas (${transformacionesAplicadas.length})
           </div>
           <ul style="padding-left: 1.25rem;">
