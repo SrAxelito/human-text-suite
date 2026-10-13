@@ -47,12 +47,61 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+  /* Tokens de barra de desplazamiento personalizada */
+  --scrollbar-width: 7px;
+  --scrollbar-track: rgba(15, 23, 42, 0.45);
+  --scrollbar-thumb: rgba(99, 102, 241, 0.38);
+  --scrollbar-thumb-hover: rgba(99, 102, 241, 0.68);
+  --scrollbar-thumb-active: #6366f1;
+  --scrollbar-thumb-border: rgba(255, 255, 255, 0.06);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* ==========================================================================
+   BARRA DE DESPLAZAMIENTO PERSONALIZADA (CUSTOM SCROLLBAR)
+   ========================================================================== */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+  height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--scrollbar-thumb-border);
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 6px var(--accent-primary-glow);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 body {
