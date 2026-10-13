@@ -1,87 +1,81 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.5.1-blue.svg)
+![Version](https://img.shields.io/badge/version-1.6.0-blue.svg)
+![Live Demo](https://img.shields.io/badge/demo-online-brightgreen.svg)
+![Windows Release](https://img.shields.io/badge/windows-portable%20%7C%20setup-blueviolet.svg)
 ![Coverage](https://img.shields.io/badge/coverage->92%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
 
 ---
 
+## 🌟 Acceso Rápido para Todos (Cero Fricción, Sin Comandos)
+
+**HumanTextSuite** está diseñada para que cualquier persona pueda usarla de inmediato, sin necesidad de saber programación, sin abrir terminales y sin tener Node.js instalado:
+
+| 🌐 Opción 1: Usar Online (Inmediato) | 💻 Opción 2: Descargar para Windows (.exe) |
+|:---:|:---:|
+| **Usa la aplicación directamente en tu navegador sin instalar nada.** | **Descarga el instalador o ejecutable portable autosuficiente.** |
+| [![Usar Online](https://img.shields.io/badge/🌐%20Usar%20Online-(Sin%20instalar%20nada)-success?style=for-the-badge&logo=googlechrome&logoColor=white)](https://sraxelito.github.io/human-text-suite/) | [![Descargar para Windows](https://img.shields.io/badge/💻%20Descargar%20para%20Windows-(.exe)-informational?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/SrAxelito/human-text-suite/releases/latest) |
+| 👉 **[Abrir en el Navegador](https://sraxelito.github.io/human-text-suite/)** | 👉 **[Descargar última versión (.exe)](https://github.com/SrAxelito/human-text-suite/releases/latest)** |
+
+---
+
+### 🚀 Guía en 3 Pasos (Para Usuarios de Windows)
+
+```mermaid
+graph LR
+    A["1. Descargar\n(Archivo .exe o .zip)"] --> B["2. Doble Clic\n(Abre la ventana nativa)"] --> C["3. Usar\n(Analizar & Humanizar)"]
+    style A fill:#4f46e5,stroke:#312e81,stroke-width:2px,color:#fff
+    style B fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#fff
+    style C fill:#059669,stroke:#064e3b,stroke-width:2px,color:#fff
+```
+
+1. **Paso 1: Descargar:** Ve a [GitHub Releases](https://github.com/SrAxelito/human-text-suite/releases/latest) y descarga `HumanTextSuite-Setup.exe` (instalador tradicional) o `HumanTextSuite-Portable.zip` (portable sin instalación).
+2. **Paso 2: Abrir:** Haz doble clic sobre el archivo descargado. La aplicación abrirá directamente su ventana de escritorio nativa con diseño premium. No necesitas tener Node.js, Git ni Python instalados.
+3. **Paso 3: Usar:** Pega tu texto o arrastra un documento de Word (`.docx`), visualiza el análisis estadístico frase a frase y humaniza el contenido con un solo clic.
+
+---
+
 ## 📋 1. Visión General del Proyecto
 
-**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación optimizada por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+**HumanTextSuite** es una solución modular de ingeniería de software diseñada para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con temas visuales claro/oscuro, scrollbar estilizado, navegación exclusiva por clic, segmentación inteligente para documentos extensos, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.6.0:
+- **Ejecutables de Escritorio Nativos para Windows:** Distribución standalone y portable autosuficiente (`.exe` y `.zip`) sin ventanas de terminal ni necesidad de instalar Node.js o Git.
+- **Despliegue Continuo Web Automático:** Integración con GitHub Pages (`.github/workflows/deploy.yml`), Vercel (`vercel.json`) y Netlify (`netlify.toml`) para acceso online inmediato desde cualquier dispositivo.
+- **Flujo de Automatización CI/CD (`.github/workflows/release.yml`):** Compilación automática y adjunción de instaladores y binarios en los Releases de GitHub en cada nueva versión.
+- **Rediseño Centrado en el Usuario Final:** Acceso prioritario sin terminales en la documentación con botones directos y guía visual en 3 pasos.
 
 ### Novedades en v1.5.1:
 - **Corrección de Arranque Persistente en Windows (`iniciar.bat`):** Diagnóstico y solución definitiva para el falso positivo en la detección de dependencias y cierre del script.
 - **Detección Resiliente de Entorno Node.js y npm:** Inclusión automática en PATH de directorios estándar de Windows (`Program Files`, `AppData\Local\Programs`) y eliminación de fallos de parsing por paréntesis en scripts Batch.
 - **Arranque en Ventana Dedicada con Logs Activos:** Lanzamiento del servidor Vite mediante `start "HumanTextSuite - Servidor" cmd /k "npm run dev"` para mantener la consola abierta con los logs en tiempo real.
-- **Temporizador de Enlace y Puerto Estricto:** Pausa controlada de 3 segundos antes de abrir el navegador y configuración de `--port 5173 --strictPort` para garantizar que la conexión nunca sea rechazada (`ERR_CONNECTION_REFUSED`).
+- **Temporizador de Enlace y Puerto Estricto:** Pausa controlada de 3 segundos antes de abrir el navegador y configuración de `--port 5173 --strictPort` para garantizar que la conexión nunca sea rechazada.
 
 ### Novedades en v1.5.0:
-- **Arranque e Instalación Automática en Un Solo Clic (`iniciar.bat` / `iniciar.sh`):** Scripts multiplataforma que verifican la presencia de Node.js, generan el archivo de configuración `.env` a partir de `.env.example`, instalan dependencias silenciosamente en la primera ejecución, arrancan el servidor Vite y abren automáticamente la aplicación en el navegador predeterminado.
-- **Herramientas de Reseteo y Mantenimiento (`limpiar.bat` / `limpiar.sh`):** Scripts de limpieza profunda para purgar `node_modules`, dist, caché de Vite/Vitest y reinstalar paquetes limpios con un solo clic.
-- **Documentación de Inicio Rápido Simplificada:** Reestructuración completa de la guía de instalación local priorizando el flujo sin terminal ni fricción para usuarios finales, manteniendo la configuración manual para desarrolladores en desplegables `<details>`.
-
-### Novedades en v1.3.0:
-- **Navegación Exclusiva por Clic en el Visor:** Eliminación del auto-scroll y saltos de pantalla al pasar el cursor sobre oraciones o indicadores; navegación fluida (*smooth scroll*) y actualización de la tarjeta de inspección activadas únicamente mediante clic explícito.
-- **Barra de Desplazamiento Personalizada (*Custom Scrollbar*):** Riel (*track*) y tirador (*thumb*) discretos de 7px con bordes redondeados y transiciones dinámicas al interactuar, compatibles con todos los paneles y contenedores con scroll.
-- **Selector de Modo Claro / Oscuro con Botón de Engranaje:** Menú de configuración en la esquina superior derecha con interruptor animado (sol/luna), paletas completas adaptadas para óptimo contraste en ambos modos y persistencia automática en `localStorage` mediante `TemaService`.
-
-### Novedades en v1.2.0:
-- **Segmentación Semántica Inteligente (`ChunkingService`):** Algoritmo de fragmentación en bloques seguros (10.000 a 15.000 caracteres o ~2.500 palabras) respetando límites de párrafos (`\n\n`), encabezados y oraciones sin cortar palabras a la mitad, preservando el 100% de los offsets de caracteres del documento original.
-- **Procesador Asíncrono en Cola (`BatchProcessingService`):** Orquestador secuencial que despacha bloques controladamente sin congelar el hilo principal ni saturar la memoria, con soporte para reintentos granulares y tolerancia a fallos.
-- **Consolidación Ponderada Global (`MetricasAggregator`):** Cálculo ponderado de probabilidades de autoría y recálculo de cadencia (*burstiness*), perplejidad y diversidad léxica a escala completa del documento con remapeo continuo de oraciones y párrafos.
-- **Barra de Progreso Reactiva & Renderizado Progresivo en UI:** Componente flotante que refleja en tiempo real el porcentaje de avance, contador de bloques ("Bloque 3 de 8"), tiempo estimado restante y botón para cancelar el análisis limpiamente en cualquier instante.
-- **Levantamiento del Límite de 50.000 Caracteres:** Configuración escalable hasta 5.000.000 de caracteres para analizar tesis, libros e informes extensos.
-
-### Novedades en v1.1.0:
-- **Importador de Documentos Word (`DocumentReaderService`):** Parsing estructural y sanitización de archivos `.docx` de hasta 15 MB con dropzone interactivo de arrastrar y soltar.
-- **Rediseño Visual Limpio con Marcadores en el Margen (*Gutter Markers*):** Franja lateral con pines discretos (Verde, Ámbar, Rojo/Coral) y subrayados tenues que garantizan una lectura óptima.
-- **Tarjeta de Inspección Contextual Flotante:** Panel interactivo al pasar el cursor o hacer clic sobre cualquier oración con desglose de perplejidad, longitud y motivo diagnóstico.
-
-A diferencia de detectores basados en llamadas a APIs opacas, **HumanTextSuite** implementa un motor estadístico local autónomo basado en:
-1. **Perplejidad y Entropía Cruzada:** Modelo de N-gramas y transiciones subléxicas.
-2. **Cadencia y Burstiness:** Medición de varianza y coeficiente de variación ($CV$) en la longitud y ritmo oracional.
-3. **Huellas y Clichés de LLM:** Detección de conectores hiper-formales, muletillas académicas y estructuras binarias formulaicas.
-4. **Pipeline de Humanización Multimodo:** 3 niveles de agresividad (*Ligero*, *Equilibrado*, *Profundo*) con reanálisis automático instantáneo para verificar la reducción matemática del score sintético.
+- **Arranque e Instalación Automática en Un Solo Clic (`iniciar.bat` / `iniciar.sh`):** Scripts multiplataforma con verificación de dependencias y apertura automática de navegador.
+- **Herramientas de Reseteo y Mantenimiento (`limpiar.bat` / `limpiar.sh`):** Scripts para purgar caché y reinstalar dependencias limpias.
 
 ---
 
-## 🏛️ 2. Arquitectura de Software (Clean Architecture)
+## ⚡ 2. Ejecución Local con Scripts de Un Solo Clic
 
-El proyecto sigue estrictamente los principios de **Arquitectura Limpia**, garantizando un desacoplamiento total entre las reglas de negocio, los algoritmos analíticos y la interfaz de usuario:
+Si has clonado el repositorio y deseas ejecutarlo localmente desde el código fuente sin escribir comandos en la terminal:
 
-```
-src/
-├── core/
-│   ├── domain/                         # CAPA DE DOMINIO (Reglas de negocio puras)
-│   │   ├── entities/                   # Entidades tipadas (MetricasDeteccion, OracionAnalizada, etc.)
-│   │   ├── enums/                      # Enums (ClasificacionIA, ModoHumanizacion)
-│   │   ├── errors/                     # Excepciones de dominio (ErrorTextoVacio, ErrorTextoExcedeLimite)
-│   │   └── interfaces/                 # Contratos de servicio (AnalizadorTexto, HumanizadorTexto, SegmentadorTexto)
-│   ├── infrastructure/                 # CAPA DE INFRAESTRUCTURA (Algoritmos e I/O)
-│   │   ├── config/                     # ConfigService singleton centralizado
-│   │   ├── nlp/                        # Algoritmos NLP (Tokenizer, SentenceSplitter, NGramLanguageModel,
-│   │   │                               # PerplexityCalculator, BurstinessCalculator, LLMMarkersDetector)
-│   │   ├── rewriting/                  # Pipeline de reescritura (Dictionaries, VocabularyReplacer,
-│   │   │                               # SentenceRestructurer, CadenceVariator)
-│   │   ├── diff/                       # DiffEngine (cálculo de adiciones/eliminaciones)
-│   │   └── export/                     # ReportExporter (JSON / Markdown)
-│   └── services/                       # CAPA DE SERVICIOS / APLICACIÓN (Casos de uso)
-│       ├── DetectorService.ts          # Orquestador del análisis y scoring de IA
-│       └── HumanizadorService.ts       # Orquestador de reescritura y reanálisis automático
-└── presentation/                       # CAPA DE PRESENTACIÓN / UI
-    ├── components/                     # Componentes modulares (Header, TextEditor, SentenceHighlighter,
-    │                                   # MetricsDashboard, DiffViewer, ActionsToolbar, ExportModal)
-    ├── state/                          # AppStore (gestor reactivo de estado con patrón Observer)
-    ├── styles/                         # index.css (Design system con glassmorphism y paleta HSL/Dark)
-    └── App.ts                          # Ensamblador principal de la interfaz
-```
+- **En Windows:** Haz doble clic en **`iniciar.bat`**.
+- **En macOS / Linux:** Ejecuta **`./iniciar.sh`** en la terminal.
+
+El script comprobará Node.js, instalará dependencias en la primera ejecución, levantará el servidor en el puerto 5173 y abrirá la aplicación en tu navegador de forma automática.
+
+> [!TIP]
+> **Limpieza rápida:** Usa **`limpiar.bat`** (Windows) o **`./limpiar.sh`** (Mac/Linux) para borrar `node_modules`, dist y caché de compilación en caso de requerir un reseteo limpio.
 
 ---
 
-## 🔬 3. Fundamentos Algorítmicos y Matemáticos
+<details>
+<summary><strong>🔬 3. Fundamentos Algorítmicos y Matemáticos</strong> (Haz clic para desplegar)</summary>
 
 ### 3.1. Perplejidad ($PPL$) y Entropía Cruzada
 La perplejidad cuantifica qué tan "sorprendido" se encuentra un modelo probabilístico ante una secuencia de texto:
@@ -117,111 +111,83 @@ Categorías resultantes:
 - **Altamente probable de IA:** $Score \ge 70\%$ (Rojo 🔴)
 - **Mixto / Dudoso:** $35\% \le Score < 70\%$ (Amarillo 🟡)
 - **Probablemente humano:** $Score < 35\%$ (Verde 🟢)
-
----
-
-## ⚡ 4. Pipeline de Humanización y Reanálisis Automático
-
-El motor de reescritura (`HumanizadorService`) ejecuta un flujo de tres fases:
-1. **Desarticulación Sintáctica (`SentenceRestructurer`):** Quiebra paralelismos forzados y fragmenta oraciones de longitud monótona.
-2. **Sustitución Léxica Multimodo (`VocabularyReplacer`):** Reemplaza conectores artificiales por transiciones naturales según el nivel seleccionado:
-   - **Modo Ligero:** Ajustes sutiles de puntuación y sinonimia suave.
-   - **Modo Equilibrado:** Reordenamiento sintáctico y alternancia rítmica moderada.
-   - **Modo Profundo:** Paráfrasis exhaustiva, desarticulación completa del ritmo discursivo y máxima naturalidad.
-3. **Modulación de Cadencia (`CadenceVariator`):** Inyecta incisos orgánicos y variedad de pausas.
-4. **Reanálisis Automático:** Reinyecta el texto transformado a `DetectorService` para verificar matemáticamente la disminución de la probabilidad sintética.
-5. **Visor Diferencial (`DiffEngine`):** Calcula tokens agregados (+), eliminados (-) y similitud porcentual.
-
----
-
-## 🚀 5. Instalación y Ejecución Local
-
-### ⚡ 5.1. Inicio Rápido (Recomendado para todos - 1 Solo Clic)
-No necesitas escribir comandos manuales en la terminal ni configurar variables de entorno para utilizar la aplicación:
-
-1. **Descarga o clona el repositorio:**
-   ```bash
-   git clone https://github.com/SrAxelito/human-text-suite.git
-   cd human-text-suite
-   ```
-2. **Ejecuta el script automático correspondiente a tu sistema operativo:**
-   - **En Windows:** Haz doble clic sobre el archivo **`iniciar.bat`**.
-   - **En macOS / Linux:** Abre una terminal en la carpeta del proyecto y ejecuta:
-     ```bash
-     chmod +x iniciar.sh
-     ./iniciar.sh
-     ```
-3. **¡Listo!** El script se encargará automáticamente de:
-   - Comprobar que tengas Node.js instalado (si no está, te ofrecerá el enlace oficial para descargarlo).
-   - Crear el archivo `.env` con valores por defecto a partir de `.env.example`.
-   - Instalar las dependencias (`npm install`) en la primera ejecución.
-   - Iniciar el servidor local y abrir automáticamente **HumanTextSuite** en tu navegador predeterminado (`http://localhost:5173`).
-   *(En ejecuciones posteriores, saltará la instalación para arrancar de inmediato).*
-
-> [!TIP]
-> **Script de Limpieza y Reseteo:** Si necesitas restaurar la configuración, borrar la caché de compilación o reinstalar dependencias limpias, haz doble clic en **`limpiar.bat`** (Windows) o ejecuta **`./limpiar.sh`** (Mac/Linux).
+</details>
 
 ---
 
 <details>
-<summary><strong>🛠️ 5.2. Instalación Manual Avanzada (Para desarrolladores)</strong> (Haz clic para desplegar)</summary>
+<summary><strong>🏛️ 4. Arquitectura de Software y Código Fuente (Para Desarrolladores)</strong> (Haz clic para desplegar)</summary>
 
-Si eres desarrollador y prefieres gestionar los procesos manualmente desde la consola:
+El proyecto sigue estrictamente los principios de **Arquitectura Limpia**:
 
-#### Prerrequisitos
-- Node.js >= 18.0.0 (probado en Node.js v20 LTS y v22)
-- npm >= 9.0.0
-
-#### 1. Configurar variables de entorno
-```bash
-cp .env.example .env
+```
+src/
+├── core/
+│   ├── domain/                         # CAPA DE DOMINIO (Reglas de negocio puras)
+│   │   ├── entities/                   # Entidades tipadas (MetricasDeteccion, OracionAnalizada)
+│   │   ├── enums/                      # Enums (ClasificacionIA, ModoHumanizacion)
+│   │   ├── errors/                     # Excepciones de dominio
+│   │   └── interfaces/                 # Contratos de servicio
+│   ├── infrastructure/                 # CAPA DE INFRAESTRUCTURA (Algoritmos e I/O)
+│   │   ├── config/                     # ConfigService singleton centralizado
+│   │   ├── nlp/                        # Algoritmos NLP (Tokenizer, Splitter, N-Gram, Perplejidad, Burstiness)
+│   │   ├── rewriting/                  # Pipeline de reescritura (Dictionaries, Replacer, Restructurer, Cadence)
+│   │   ├── diff/                       # DiffEngine (comparación y diff view)
+│   │   └── export/                     # ReportExporter (JSON / Markdown)
+│   └── services/                       # CAPA DE SERVICIOS / APLICACIÓN
+│       ├── DetectorService.ts          # Orquestador del análisis y scoring de IA
+│       ├── DocumentReaderService.ts    # Adaptador de lectura de documentos Word (.docx)
+│       ├── ChunkingService.ts          # Segmentador semántico inteligente para documentos extensos
+│       ├── BatchProcessingService.ts   # Procesador por lotes asíncrono
+│       ├── MetricasAggregator.ts       # Agregador y ponderador global de métricas
+│       └── HumanizadorService.ts       # Orquestador de reescritura y reanálisis automático
+├── electron/                           # PROCESO PRINCIPAL DE ESCRITORIO
+│   └── main.cjs                        # Ventana nativa Electron autónoma
+└── presentation/                       # CAPA DE PRESENTACIÓN / UI
+    ├── components/                     # Componentes modulares
+    ├── state/                          # AppStore (patrón Observer)
+    ├── styles/                         # index.css (Design system, temas claro/oscuro)
+    └── App.ts                          # Ensamblador principal de la interfaz
 ```
 
-#### 2. Instalar dependencias
+### Comandos de Desarrollo y Compilación Manual
 ```bash
+# 1. Instalar dependencias
 npm install
-```
 
-#### 3. Iniciar servidor de desarrollo
-```bash
+# 2. Iniciar servidor de desarrollo Vite
 npm run dev
-```
-La aplicación estará disponible localmente en `http://localhost:5173`.
 
-#### 4. Validar tipos y compilar para producción
-```bash
+# 3. Compilar aplicación web a producción (/dist)
 npm run build
-```
 
-#### 5. Previsualizar compilación de producción
-```bash
-npm run preview
-```
+# 4. Probar empaquetado de escritorio local (Electron)
+npm run pack
 
-#### 6. Ejecutar suite de pruebas
-```bash
+# 5. Generar instalador y portable con electron-builder
+npm run dist
+
+# 6. Ejecutar suite de pruebas con Vitest
 npm test
+
+# 7. Ejecutar reporte de cobertura
 npm run test:coverage
 ```
 </details>
 
 ---
 
-## 🧪 6. Suite de Pruebas Automatizadas y Cobertura
+<details>
+<summary><strong>🧪 5. Suite de Pruebas Automatizadas y Cobertura</strong> (Haz clic para desplegar)</summary>
 
-El proyecto cuenta con más de 80 pruebas automatizadas distribuidas en pruebas unitarias, de integración, DevOps y tolerancia a fallos.
+El proyecto cuenta con más de 90 pruebas automatizadas con vitest:
 
-### Ejecutar las pruebas
 ```bash
 npm test
-```
-
-### Ejecutar con reporte de cobertura de código
-```bash
 npm run test:coverage
 ```
 
-### Métricas de Cobertura Obtenidas
+### Métricas de Cobertura
 | Capa / Módulo | Declaraciones (Stmts) | Ramas (Branch) | Funciones (Funcs) | Líneas (Lines) |
 |---|---|---|---|---|
 | **Capa de Dominio** (`core/domain`) | **100%** | **100%** | **100%** | **100%** |
@@ -229,19 +195,10 @@ npm run test:coverage
 | **Capa de Infraestructura** (`core/infrastructure`) | **95.8%** | **83.3%** | **98.0%** | **95.8%** |
 | **Total Global del Proyecto** | **96.73%** | **85.17%** | **98.07%** | **96.73%** |
 
-*(Supera con creces el umbral exigido de $\ge 85\%$ en servicios y dominio).*
+*(Supera holgadamente el estándar de calidad de $\ge 85\%$).*
+</details>
 
 ---
 
-## 📦 7. Scripts del Proyecto (`package.json`)
-
-- `npm run dev`: Inicia el servidor de desarrollo Vite con Hot Module Replacement (HMR).
-- `npm run build`: Valida tipos TypeScript y genera los paquetes optimizados en `/dist`.
-- `npm run preview`: Previsualiza localmente el build de producción.
-- `npm test`: Ejecuta las pruebas automatizadas con Vitest.
-- `npm run test:coverage`: Ejecuta la suite y genera reporte gráfico de cobertura V8.
-
----
-
-## 📄 8. Licencia
+## 📄 Licencia
 Este proyecto está licenciado bajo los términos de la Licencia MIT.

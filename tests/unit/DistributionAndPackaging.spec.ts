@@ -67,3 +67,27 @@ describe('Despliegue Continuo Web y CD Multi-Plataforma', () => {
     expect(contenido).toContain('electron-builder');
   });
 });
+
+describe('Documentación README para Usuarios Finales', () => {
+  const readmePath = path.resolve(__dirname, '../../README.md');
+
+  it('debe incluir enlaces destacados a Live Demo y Descarga de Ejecutable', () => {
+    const contenido = fs.readFileSync(readmePath, 'utf-8');
+    expect(contenido).toContain('https://sraxelito.github.io/human-text-suite/');
+    expect(contenido).toContain('https://github.com/SrAxelito/human-text-suite/releases/latest');
+  });
+
+  it('debe presentar la guía de 3 pasos (Descargar, Abrir, Usar)', () => {
+    const contenido = fs.readFileSync(readmePath, 'utf-8');
+    expect(contenido).toContain('Paso 1: Descargar');
+    expect(contenido).toContain('Paso 2: Abrir');
+    expect(contenido).toContain('Paso 3: Usar');
+  });
+
+  it('debe encapsular la documentación técnica avanzada en secciones colapsables <details>', () => {
+    const contenido = fs.readFileSync(readmePath, 'utf-8');
+    expect(contenido).toContain('<details>');
+    expect(contenido).toContain('</details>');
+    expect(contenido).toContain('Arquitectura de Software y Código Fuente');
+  });
+});
