@@ -4,3 +4,4 @@ export * from './DocumentReaderService';
 export * from './ChunkingService';
 export * from './MetricasAggregator';
 export * from './BatchProcessingService';
+export * from './TemaService';

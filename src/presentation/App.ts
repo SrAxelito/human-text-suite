@@ -8,10 +8,12 @@ import { DiffViewer } from './components/DiffViewer';
 import { ActionsToolbar } from './components/ActionsToolbar';
 import { ExportModal } from './components/ExportModal';
 import { ProgressBar } from './components/ProgressBar';
+import { TemaService } from '../core/services/TemaService';
 import { ReportExporter } from '../core/infrastructure/export/ReportExporter';
 
 export class App {
   private store: AppStore;
+  private temaService: TemaService;
   private rootElement: HTMLElement;
   private modalExportAbierto = false;
   private formatoExport: 'json' | 'markdown' = 'json';
@@ -19,6 +21,9 @@ export class App {
   constructor(rootElement: HTMLElement) {
     this.rootElement = rootElement;
     this.store = AppStore.obtenerInstancia();
+    this.temaService = TemaService.obtenerInstancia();
+    this.temaService.inicializar();
+    this.temaService.suscribir(() => this.render(this.store.obtenerEstado()));
     this.store.suscribir((estado) => this.render(estado));
   }
 
@@ -27,7 +32,7 @@ export class App {
     const caracteresConteo = estado.texto.length;
 
     this.rootElement.innerHTML = `
-      ${Header.render()}
+      ${Header.render(this.temaService.obtenerTemaActual())}
       ${SampleSelector.render()}
       ${DropzoneWord.render(estado)}
 
@@ -129,6 +134,7 @@ export class App {
   }
 
   private bindEvents(estado: EstadoApp): void {
+    Header.bindEvents(this.rootElement, this.temaService);
     SampleSelector.bindEvents(this.rootElement, this.store);
     DropzoneWord.bindEvents(this.rootElement, this.store);
     ProgressBar.bindEvents(this.rootElement, this.store);
