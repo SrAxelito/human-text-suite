@@ -71,7 +71,7 @@ describe('DocumentReaderService - Extracción y Lectura de Archivos Word (.docx)
 
   it('debe funcionar correctamente cuando se pasa un objeto File del navegador', async () => {
     const bytesDocx = await createSampleDocx(['Texto dentro de File object.']);
-    const file = new File([bytesDocx], 'tesis.docx', {
+    const file = new File([bytesDocx.buffer as ArrayBuffer], 'tesis.docx', {
       type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
 

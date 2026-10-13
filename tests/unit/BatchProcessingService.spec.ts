@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { BatchProcessingService } from '../../src/core/services/BatchProcessingService';
 import { EventoProgresoLote } from '../../src/core/domain/interfaces/ProcesadorLotes';
 import { ErrorProcesoCancelado, ErrorTextoVacio } from '../../src/core/domain/errors/ErroresDominio';

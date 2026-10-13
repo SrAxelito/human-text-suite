@@ -1,8 +1,8 @@
 # HumanTextSuite 🧠✨
 ### Detector de Texto Generado por IA, Corrección de Estilo y Motor de Humanización de Contenido
 
-![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)
-![Coverage](https://img.shields.io/badge/coverage->95%25-brightgreen.svg)
+![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)
+![Coverage](https://img.shields.io/badge/coverage->91%25-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Architecture](https://img.shields.io/badge/architecture-Clean%20Architecture-purple.svg)
 
@@ -10,12 +10,19 @@
 
 ## 📋 1. Visión General del Proyecto
 
-**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+**HumanTextSuite** es una solución de ingeniería de software diseñada desde cero para la detección estadística y probabilística de texto sintético generado por Modelos de Lenguaje Grande (LLMs como ChatGPT, Claude, Gemini, etc.), combinada con segmentación inteligente para documentos extensos, procesamiento por lotes asíncrono, importación de documentos Word (.docx), un motor desacoplado de reescritura, humanización de contenido y reanálisis comparativo cuantitativo (*Diff View*).
+
+### Novedades en v1.2.0:
+- **Segmentación Semántica Inteligente (`ChunkingService`):** Algoritmo de fragmentación en bloques seguros (10.000 a 15.000 caracteres o ~2.500 palabras) respetando límites de párrafos (`\n\n`), encabezados y oraciones sin cortar palabras a la mitad, preservando el 100% de los offsets de caracteres del documento original.
+- **Procesador Asíncrono en Cola (`BatchProcessingService`):** Orquestador secuencial que despacha bloques controladamente sin congelar el hilo principal ni saturar la memoria, con soporte para reintentos granulares y tolerancia a fallos.
+- **Consolidación Ponderada Global (`MetricasAggregator`):** Cálculo ponderado de probabilidades de autoría y recálculo de cadencia (*burstiness*), perplejidad y diversidad léxica a escala completa del documento con remapeo continuo de oraciones y párrafos.
+- **Barra de Progreso Reactiva & Renderizado Progresivo en UI:** Componente flotante que refleja en tiempo real el porcentaje de avance, contador de bloques ("Bloque 3 de 8"), tiempo estimado restante y botón para cancelar el análisis limpiamente en cualquier instante.
+- **Levantamiento del Límite de 50.000 Caracteres:** Configuración escalable hasta 5.000.000 de caracteres para analizar tesis, libros e informes extensos.
 
 ### Novedades en v1.1.0:
 - **Importador de Documentos Word (`DocumentReaderService`):** Parsing estructural y sanitización de archivos `.docx` de hasta 15 MB con dropzone interactivo de arrastrar y soltar.
-- **Rediseño Visual Limpio con Marcadores en el Margen (*Gutter Markers*):** Eliminación de fondos saturados directamente sobre el texto; franja lateral con pines de color discretos (Verde, Ámbar, Rojo/Coral) y subrayados tenues que garantizan una lectura óptima.
-- **Tarjeta de Inspección Contextual Flotante:** Panel interactivo al pasar el cursor o hacer clic sobre cualquier oración con desglose de perplejidad, longitud y motivo diagnóstico sin tapar el texto continuo.
+- **Rediseño Visual Limpio con Marcadores en el Margen (*Gutter Markers*):** Franja lateral con pines discretos (Verde, Ámbar, Rojo/Coral) y subrayados tenues que garantizan una lectura óptima.
+- **Tarjeta de Inspección Contextual Flotante:** Panel interactivo al pasar el cursor o hacer clic sobre cualquier oración con desglose de perplejidad, longitud y motivo diagnóstico.
 
 A diferencia de detectores basados en llamadas a APIs opacas, **HumanTextSuite** implementa un motor estadístico local autónomo basado en:
 1. **Perplejidad y Entropía Cruzada:** Modelo de N-gramas y transiciones subléxicas.

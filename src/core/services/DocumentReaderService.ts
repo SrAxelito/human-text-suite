@@ -162,9 +162,9 @@ export class DocumentReaderService implements LectorDocumentos {
       return await archivo.arrayBuffer();
     }
     if (archivo instanceof Uint8Array) {
-      return archivo.buffer.slice(archivo.byteOffset, archivo.byteOffset + archivo.byteLength);
+      return archivo.buffer.slice(archivo.byteOffset, archivo.byteOffset + archivo.byteLength) as ArrayBuffer;
     }
-    return archivo;
+    return archivo as ArrayBuffer;
   }
 
   private obtenerNombreArchivo(archivo: File | ArrayBuffer | Uint8Array, nombreOpcional?: string): string {

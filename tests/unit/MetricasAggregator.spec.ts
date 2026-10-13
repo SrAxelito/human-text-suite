@@ -11,8 +11,7 @@ describe('MetricasAggregator - Consolidación Global de Métricas', () => {
     texto: string,
     probabilidadIA: number,
     palabras: number,
-    perplejidad: number,
-    inicioOffset: number
+    perplejidad: number
   ): ResultadoAnalisis => ({
     textoOriginal: texto,
     probabilidadGlobalIA: probabilidadIA,
@@ -93,7 +92,7 @@ describe('MetricasAggregator - Consolidación Global de Métricas', () => {
           totalCaracteres: chunk1Texto.length,
           totalPalabras: 10
         },
-        resultado: crearResultadoMock(chunk1Texto, 80, 10, 30, 0)
+        resultado: crearResultadoMock(chunk1Texto, 80, 10, 30)
       },
       {
         fragmento: {
@@ -104,7 +103,7 @@ describe('MetricasAggregator - Consolidación Global de Métricas', () => {
           totalCaracteres: chunk2Texto.length,
           totalPalabras: 10
         },
-        resultado: crearResultadoMock(chunk2Texto, 20, 10, 70, chunk1Texto.length)
+        resultado: crearResultadoMock(chunk2Texto, 20, 10, 70)
       }
     ];
 

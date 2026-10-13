@@ -5,6 +5,7 @@ export interface SegmentoOracion {
 }
 
 export interface SegmentoParrafo {
+  indice?: number;
   texto: string;
   inicio: number;
   fin: number;

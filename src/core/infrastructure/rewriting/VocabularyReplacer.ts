@@ -36,7 +36,7 @@ export class VocabularyReplacer {
           break;
       }
 
-      resultado = resultado.replace(regla.patron, (coincidencia, offset) => {
+      resultado = resultado.replace(regla.patron, (coincidencia) => {
         const sustituto = Dictionaries.seleccionarOpcion(opciones, contadorSemilla++);
         const esMayuscula = coincidencia[0] === coincidencia[0].toUpperCase();
         const reemplazoFinal = esMayuscula
