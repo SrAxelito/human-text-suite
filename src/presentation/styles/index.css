@@ -463,20 +463,22 @@ body {
   min-height: 380px;
   display: flex;
   flex-direction: column;
-  background: rgba(10, 14, 24, 0.8);
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .editor-container:focus-within {
   border-color: var(--border-active);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15);
 }
 
 .text-input {
   width: 100%;
-  height: 340px;
+  min-height: 380px;
+  flex: 1;
   background: transparent;
   border: none;
   outline: none;
@@ -492,11 +494,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1.25rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-top: 1px solid var(--border-subtle);
+  padding: 0.55rem 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
   font-size: 0.8rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  margin-top: 0.75rem;
 }
 
 /* ========================================================
@@ -928,7 +932,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1.75rem 1rem;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   position: relative;
@@ -943,7 +947,7 @@ body {
 
 .gauge-bg {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.06);
+  stroke: var(--border-subtle);
   stroke-width: 12;
 }
 
@@ -969,6 +973,11 @@ body {
   line-height: 1;
 }
 
+.gauge-score.gauge-score-empty {
+  color: var(--text-muted);
+  font-size: 2.2rem;
+}
+
 .gauge-label {
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -980,33 +989,39 @@ body {
 
 .category-banner {
   margin-top: 1.25rem;
-  padding: 0.5rem 1.25rem;
+  padding: 0.4rem 1.25rem;
   border-radius: var(--radius-full);
-  font-size: 0.9rem;
+  font-size: 0.825rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.category-waiting {
+  background: #21262d;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
 .category-ai {
-  background: var(--color-ai-subtle);
-  border: 1px solid var(--color-ai-border);
-  color: #fca5a5;
+  background: rgba(248, 81, 73, 0.15);
+  border: 1px solid rgba(248, 81, 73, 0.4);
+  color: #ff7b72;
 }
 
 .category-mixed {
-  background: var(--color-mixed-subtle);
-  border: 1px solid var(--color-mixed-border);
-  color: #fde68a;
+  background: rgba(210, 153, 34, 0.15);
+  border: 1px solid rgba(210, 153, 34, 0.4);
+  color: #e3b341;
 }
 
 .category-human {
-  background: var(--color-human-subtle);
-  border: 1px solid var(--color-human-border);
-  color: #6ee7b7;
+  background: rgba(35, 134, 54, 0.15);
+  border: 1px solid rgba(35, 134, 54, 0.4);
+  color: #3fb950;
 }
 
 .metric-cards-grid {
@@ -1016,7 +1031,7 @@ body {
 }
 
 .metric-card {
-  background: rgba(0, 0, 0, 0.25);
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 1rem;
@@ -1047,7 +1062,7 @@ body {
 .metric-bar-bg {
   width: 100%;
   height: 6px;
-  background: rgba(255, 255, 255, 0.08);
+  background: #21262d;
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -1064,8 +1079,8 @@ body {
 }
 
 .diagnostic-card {
-  background: rgba(99, 102, 241, 0.06);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(56, 139, 253, 0.1);
+  border: 1px solid #388bfd;
   border-radius: var(--radius-sm);
   padding: 1rem 1.25rem;
   display: flex;
@@ -1075,8 +1090,8 @@ body {
 
 .diagnostic-title {
   font-size: 0.85rem;
-  font-weight: 700;
-  color: #a5b4fc;
+  font-weight: 600;
+  color: #58a6ff;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -1867,4 +1882,94 @@ body {
   color: #24292f;
   border-color: #d0d7de;
   box-shadow: 0 8px 24px rgba(140, 149, 159, 0.2);
+}
+
+[data-theme="claro"] .editor-container,
+.theme-claro .editor-container {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .text-input,
+.theme-claro .text-input {
+  color: #24292f;
+  background: transparent;
+}
+
+[data-theme="claro"] .editor-footer,
+.theme-claro .editor-footer {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+  color: #57606a;
+}
+
+[data-theme="claro"] .gauge-hero,
+.theme-claro .gauge-hero {
+  background: #f6f8fa;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .gauge-bg,
+.theme-claro .gauge-bg {
+  stroke: #d0d7de;
+}
+
+[data-theme="claro"] .gauge-score.gauge-score-empty,
+.theme-claro .gauge-score.gauge-score-empty {
+  color: #57606a;
+}
+
+[data-theme="claro"] .category-banner.category-waiting,
+.theme-claro .category-banner.category-waiting {
+  background: #eaeef2;
+  border-color: #d0d7de;
+  color: #57606a;
+}
+
+[data-theme="claro"] .category-ai,
+.theme-claro .category-ai {
+  background: #ffebe9;
+  border-color: #ff8182;
+  color: #cf222e;
+}
+
+[data-theme="claro"] .category-mixed,
+.theme-claro .category-mixed {
+  background: #fff8c5;
+  border-color: #d4a72c;
+  color: #9a6700;
+}
+
+[data-theme="claro"] .category-human,
+.theme-claro .category-human {
+  background: #dafbe1;
+  border-color: #4ac26b;
+  color: #1a7f37;
+}
+
+[data-theme="claro"] .metric-card,
+.theme-claro .metric-card {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .metric-bar-bg,
+.theme-claro .metric-bar-bg {
+  background: #eaeef2;
+}
+
+[data-theme="claro"] .diagnostic-card,
+.theme-claro .diagnostic-card {
+  background: #ddf4ff;
+  border-color: #54aeff;
+}
+
+[data-theme="claro"] .diagnostic-title,
+.theme-claro .diagnostic-title {
+  color: #0969da;
+}
+
+[data-theme="claro"] .diagnostic-body,
+.theme-claro .diagnostic-body {
+  color: #24292f;
 }
