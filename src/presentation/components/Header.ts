@@ -15,7 +15,7 @@ export class Header {
           </div>
           <div>
             <h1 class="brand-title">HumanTextSuite</h1>
-            <p class="brand-subtitle">Detector probabilístico de IA & Motor de Humanización v1.5.1</p>
+            <p class="brand-subtitle">Detector probabilístico de IA & Motor de Humanización v1.6.0</p>
           </div>
         </div>
 
