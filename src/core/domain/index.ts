@@ -1,6 +1,7 @@
 export * from './enums/ClasificacionIA';
 export * from './enums/ModoHumanizacion';
 export * from './errors/ErroresDominio';
+export * from './errors/ErroresDocumento';
 export * from './entities/MetricasDeteccion';
 export * from './entities/OracionAnalizada';
 export * from './entities/ParrafoAnalizado';
@@ -11,3 +12,4 @@ export * from './interfaces/AnalizadorTexto';
 export * from './interfaces/HumanizadorTexto';
 export * from './interfaces/SegmentadorTexto';
 export * from './interfaces/ConfiguracionSistema';
+export * from './interfaces/LectorDocumentos';

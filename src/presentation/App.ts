@@ -1,7 +1,8 @@
 import { AppStore, EstadoApp } from './state/AppStore';
 import { Header } from './components/Header';
 import { SampleSelector } from './components/SampleSelector';
-import { SentenceHighlighter } from './components/SentenceHighlighter';
+import { DropzoneWord } from './components/DropzoneWord';
+import { VisorTexto } from './components/VisorTexto';
 import { MetricsDashboard } from './components/MetricsDashboard';
 import { DiffViewer } from './components/DiffViewer';
 import { ActionsToolbar } from './components/ActionsToolbar';
@@ -27,9 +28,10 @@ export class App {
     this.rootElement.innerHTML = `
       ${Header.render()}
       ${SampleSelector.render()}
+      ${DropzoneWord.render(estado)}
 
       <main class="workspace-grid">
-        <!-- Panel Izquierdo: Editor, Resaltado y Diff -->
+        <!-- Panel Izquierdo: Editor, Visor Limpio y Diff -->
         <section class="glass-panel">
           <div class="panel-header">
             <h2 class="panel-title">
@@ -39,7 +41,7 @@ export class App {
                 <line x1="16" y1="13" x2="8" y2="13"/>
                 <line x1="16" y1="17" x2="8" y2="17"/>
               </svg>
-              Espacio de Redacción & Análisis
+              Espacio de Redacción & Detección
             </h2>
 
             <div class="tab-nav">
@@ -47,7 +49,7 @@ export class App {
                 Editor
               </button>
               <button class="tab-btn ${estado.vistaActiva === 'resaltado' ? 'active' : ''}" id="tab-resaltado" ${!estado.analisis ? 'disabled' : ''}>
-                Resaltado IA
+                Visor con Margen
               </button>
               <button class="tab-btn ${estado.vistaActiva === 'diff' ? 'active' : ''}" id="tab-diff" ${!estado.humanizacion ? 'disabled' : ''}>
                 Visor Diff
@@ -109,7 +111,7 @@ export class App {
     }
 
     if (estado.vistaActiva === 'resaltado') {
-      return SentenceHighlighter.render(estado.analisis ? estado.analisis.oraciones : []);
+      return VisorTexto.render(estado.analisis, estado.oracionSeleccionada);
     }
 
     // Por defecto: vista editor
@@ -118,7 +120,7 @@ export class App {
         <textarea
           id="main-text-input"
           class="text-input"
-          placeholder="Escribe o pega aquí el texto que deseas analizar o humanizar (admite español e inglés)..."
+          placeholder="Escribe, pega texto o sube un archivo .docx para analizar o humanizar (admite español e inglés)..."
         >${this.escaparHtml(estado.texto)}</textarea>
       </div>
     `;
@@ -126,6 +128,13 @@ export class App {
 
   private bindEvents(estado: EstadoApp): void {
     SampleSelector.bindEvents(this.rootElement, this.store);
+    DropzoneWord.bindEvents(this.rootElement, this.store);
+
+    if (estado.vistaActiva === 'resaltado') {
+      VisorTexto.bindEvents(this.rootElement, estado.analisis, (oracion) => {
+        this.store.seleccionarOracion(oracion);
+      });
+    }
 
     ActionsToolbar.bindEvents(this.rootElement, this.store, () => {
       this.modalExportAbierto = true;
@@ -183,10 +192,14 @@ export class App {
     }
   }
 
-  private escaparHtml(texto: string): string {
+  private static escaparHtml(texto: string): string {
     return texto
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
+  }
+
+  private escaparHtml(texto: string): string {
+    return App.escaparHtml(texto);
   }
 }
