@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { DetectorService } from '../../src/core/services/DetectorService';
 import { ClasificacionIA } from '../../src/core/domain/enums/ClasificacionIA';
 import { ErrorTextoVacio, ErrorTextoExcedeLimite } from '../../src/core/domain/errors/ErroresDominio';
+import { ConfigService } from '../../src/core/infrastructure/config/ConfigService';
 
 describe('DetectorService - Motor Analítico de Detección de IA', () => {
   let detector: DetectorService;
@@ -56,8 +57,15 @@ A veces uno solo necesita desconectar un rato del ruido del mundo y dejar que lo
   });
 
   it('debe arrojar ErrorTextoExcedeLimite al superar el tamaño máximo configurado', async () => {
-    const textoGigante = 'palabra '.repeat(10000); // ~80,000 caracteres
-    await expect(detector.analizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+    const config = ConfigService.obtenerInstancia();
+    const prevMax = config.longitudMaximaTexto;
+    config.longitudMaximaTexto = 1000;
+    try {
+      const textoGigante = 'palabra '.repeat(200); // 1,600 caracteres
+      await expect(detector.analizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+    } finally {
+      config.longitudMaximaTexto = prevMax;
+    }
   });
 
   it('debe calcular offsets de caracteres consistentes para cada oración', async () => {

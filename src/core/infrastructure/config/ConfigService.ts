@@ -25,7 +25,7 @@ export class ConfigService implements ConfiguracionSistema {
     this.pesoPerplejidad = Number(env.VITE_PERPLEXITY_WEIGHT) || 0.40;
     this.pesoBurstiness = Number(env.VITE_BURSTINESS_WEIGHT) || 0.35;
     this.pesoCliches = Number(env.VITE_CLICHE_WEIGHT) || 0.25;
-    this.longitudMaximaTexto = Number(env.VITE_MAX_TEXT_LENGTH) || 50000;
+    this.longitudMaximaTexto = Number(env.VITE_MAX_TEXT_LENGTH) || 5000000;
     this.timeoutAnalisisMs = Number(env.VITE_DEFAULT_ANALYSIS_TIMEOUT_MS) || 10000;
     this.aiModelProvider = env.VITE_AI_MODEL_PROVIDER || 'heuristic_local';
     this.aiApiKey = env.VITE_AI_API_KEY || '';

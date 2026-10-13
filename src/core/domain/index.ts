@@ -14,3 +14,4 @@ export * from './interfaces/SegmentadorTexto';
 export * from './interfaces/ConfiguracionSistema';
 export * from './interfaces/LectorDocumentos';
 export * from './interfaces/SegmentadorChunking';
+export * from './interfaces/ProcesadorLotes';

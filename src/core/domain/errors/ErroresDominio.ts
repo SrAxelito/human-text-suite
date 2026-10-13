@@ -38,3 +38,9 @@ export class ErrorModoInvalido extends ErrorDominioTexto {
     super(`El modo de humanización '${modo}' no es reconocido.`, 'MODO_INVALIDO');
   }
 }
+
+export class ErrorProcesoCancelado extends ErrorDominioTexto {
+  constructor(mensaje = 'El procesamiento del documento fue cancelado por el usuario.') {
+    super(mensaje, 'PROCESO_CANCELADO');
+  }
+}

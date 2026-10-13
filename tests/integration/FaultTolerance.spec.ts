@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { DetectorService } from '../../src/core/services/DetectorService';
 import { HumanizadorService } from '../../src/core/services/HumanizadorService';
 import { ErrorTextoVacio, ErrorTextoExcedeLimite } from '../../src/core/domain/errors/ErroresDominio';
+import { ConfigService } from '../../src/core/infrastructure/config/ConfigService';
 import { ModoHumanizacion } from '../../src/core/domain/enums/ModoHumanizacion';
 
 describe('Pruebas de Tolerancia a Fallos y Casos Límite', () => {
@@ -31,12 +32,19 @@ describe('Pruebas de Tolerancia a Fallos y Casos Límite', () => {
     expect(resHum.textoHumanizado).toContain('🚀');
   });
 
-  it('debe rechazar textos que excedan el límite de caracteres (> 50,000 caracteres / ~10,000 palabras)', async () => {
-    const textoGigante = 'oracion repetida de prueba con varias palabras. '.repeat(1200); // ~57,600 caracteres
-    expect(textoGigante.length).toBeGreaterThan(50000);
+  it('debe rechazar textos que excedan el límite de caracteres configurado', async () => {
+    const config = ConfigService.obtenerInstancia();
+    const prevMax = config.longitudMaximaTexto;
+    config.longitudMaximaTexto = 2000;
+    try {
+      const textoGigante = 'oracion repetida de prueba con varias palabras. '.repeat(60); // ~2,880 caracteres
+      expect(textoGigante.length).toBeGreaterThan(2000);
 
-    await expect(detector.analizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
-    await expect(humanizador.humanizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+      await expect(detector.analizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+      await expect(humanizador.humanizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+    } finally {
+      config.longitudMaximaTexto = prevMax;
+    }
   });
 
   it('debe procesar un texto de 4,000 palabras dentro del límite de forma eficiente y sin bloqueos', async () => {

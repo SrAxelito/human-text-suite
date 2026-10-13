@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { HumanizadorService } from '../../src/core/services/HumanizadorService';
 import { ModoHumanizacion } from '../../src/core/domain/enums/ModoHumanizacion';
 import { ErrorTextoVacio, ErrorTextoExcedeLimite } from '../../src/core/domain/errors/ErroresDominio';
+import { ConfigService } from '../../src/core/infrastructure/config/ConfigService';
 
 describe('HumanizadorService - Pipeline de Reescritura y Humanización', () => {
   let humanizador: HumanizadorService;
@@ -65,7 +66,14 @@ No solo agiliza el flujo de trabajo, sino también empodera a los colaboradores.
   });
 
   it('debe arrojar ErrorTextoExcedeLimite al superar longitud configurada', async () => {
-    const textoGigante = 'palabra '.repeat(10000);
-    await expect(humanizador.humanizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+    const config = ConfigService.obtenerInstancia();
+    const prevMax = config.longitudMaximaTexto;
+    config.longitudMaximaTexto = 1000;
+    try {
+      const textoGigante = 'palabra '.repeat(200);
+      await expect(humanizador.humanizar(textoGigante)).rejects.toThrow(ErrorTextoExcedeLimite);
+    } finally {
+      config.longitudMaximaTexto = prevMax;
+    }
   });
 });
