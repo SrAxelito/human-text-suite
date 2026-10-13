@@ -3,6 +3,8 @@
   "version": "1.5.1",
   "private": true,
   "type": "module",
+  "main": "electron/main.cjs",
+  "author": "SrAxelito",
   "description": "Detector de texto generado por IA, corrección de estilo y humanización de contenido.",
   "scripts": {
     "dev": "vite --port 5173 --strictPort",
@@ -10,18 +12,64 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "electron:dev": "electron .",
+    "pack": "npm run build && electron-packager . HumanTextSuite --platform=win32 --arch=x64 --out=release --overwrite",
+    "dist": "npm run build && electron-builder --win",
+    "dist:portable": "npm run build && electron-builder --win portable",
+    "dist:dir": "npm run build && electron-builder --dir"
   },
   "dependencies": {
     "diff": "^7.0.0",
     "mammoth": "^1.13.0"
   },
   "devDependencies": {
+    "@electron/packager": "^18.4.4",
     "@types/diff": "^7.0.0",
     "@types/node": "^22.7.5",
     "@vitest/coverage-v8": "^2.1.2",
+    "electron": "41.7.1",
+    "electron-builder": "^24.13.3",
     "typescript": "^5.6.3",
     "vite": "^5.4.8",
     "vitest": "^2.1.2"
+  },
+  "build": {
+    "appId": "com.sraxelito.humantextsuite",
+    "productName": "HumanTextSuite",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "HumanTextSuite",
+      "artifactName": "HumanTextSuite-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "HumanTextSuite-Portable-${version}.${ext}"
+    }
   }
 }

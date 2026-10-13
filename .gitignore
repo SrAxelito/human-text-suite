@@ -37,3 +37,8 @@ coverage
 # Temporary / Scratch
 tmp
 temp
+
+# Desktop Releases & Packaging
+release
+release/*
+
