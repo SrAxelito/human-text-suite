@@ -433,29 +433,46 @@ body {
 }
 
 .tab-nav {
-  display: flex;
-  background: rgba(0, 0, 0, 0.35);
-  padding: 4px;
-  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  background: #21262d;
+  padding: 3px;
+  border-radius: 6px;
   border: 1px solid var(--border-subtle);
+  gap: 2px;
 }
 
 .tab-btn {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   color: var(--text-secondary);
-  font-size: 0.825rem;
-  font-weight: 600;
-  padding: 0.4rem 1rem;
-  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  line-height: 18px;
+}
+
+.tab-btn:hover:not(:disabled) {
+  color: var(--text-primary);
+  background: rgba(110, 118, 129, 0.2);
 }
 
 .tab-btn.active {
-  background: var(--accent-primary);
-  color: white;
-  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+  background: #30363d;
+  border-color: rgba(240, 246, 252, 0.1);
+  color: #f0f6fc;
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(1, 4, 9, 0.3);
+}
+
+.tab-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Editor Textarea */
@@ -1156,7 +1173,7 @@ body {
 }
 
 .diff-box {
-  background: rgba(10, 14, 24, 0.8);
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 1.25rem;
@@ -1168,13 +1185,28 @@ body {
 }
 
 .diff-content-wrapper {
-  background: rgba(10, 14, 24, 0.8);
+  background: var(--bg-card);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 1.25rem;
   min-height: 280px;
   line-height: 1.8;
   font-size: 0.95rem;
+}
+
+.diff-transformations-card {
+  margin-top: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+}
+
+.diff-transformations-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  color: #58a6ff;
 }
 
 .diff-added {
@@ -1972,4 +2004,58 @@ body {
 [data-theme="claro"] .diagnostic-body,
 .theme-claro .diagnostic-body {
   color: #24292f;
+}
+
+[data-theme="claro"] .tab-nav,
+.theme-claro .tab-nav {
+  background: #eaeef2;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .tab-btn,
+.theme-claro .tab-btn {
+  color: #57606a;
+}
+
+[data-theme="claro"] .tab-btn:hover:not(:disabled),
+.theme-claro .tab-btn:hover:not(:disabled) {
+  color: #24292f;
+  background: rgba(208, 215, 222, 0.4);
+}
+
+[data-theme="claro"] .tab-btn.active,
+.theme-claro .tab-btn.active {
+  background: #ffffff;
+  border-color: #d0d7de;
+  color: #24292f;
+  box-shadow: 0 1px 2px rgba(27, 31, 36, 0.12);
+}
+
+[data-theme="claro"] .diff-box,
+.theme-claro .diff-box {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .diff-content-wrapper,
+.theme-claro .diff-content-wrapper {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .diff-hero-banner,
+.theme-claro .diff-hero-banner {
+  background: #dafbe1;
+  border-color: #4ac26b;
+}
+
+[data-theme="claro"] .diff-transformations-card,
+.theme-claro .diff-transformations-card {
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+[data-theme="claro"] .diff-transformations-title,
+.theme-claro .diff-transformations-title {
+  color: #0969da;
 }
